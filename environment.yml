@@ -1,0 +1,18 @@
+name: data
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - black=23.*
+  - ipykernel=6.*
+  - ipywidgets
+  - pip=23.3.2
+  - polars=0.20.*
+  - pytest=7.*
+  - pytest-cov=4.*
+  - python=3.8
+  - ruff
+  - tqdm=4.*
+  - pip:
+    - beautifulsoup4
+    - ptpython==3.0.25
