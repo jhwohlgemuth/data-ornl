@@ -1,0 +1,13 @@
+# pixi environments
+.pixi
+*.egg-info
+
+.DS_Store
+.pytest_cache/
+.mypy_cache
+.ruff_cache
+__pycache__/
+.ipynb_checkpoints
+.hypothesis
+.coverage
+coverage.xml
