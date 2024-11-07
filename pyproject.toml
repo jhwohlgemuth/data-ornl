@@ -41,6 +41,7 @@ zarr = "*"
 mypy = ">=1.13.0,<2"
 types-tqdm = ">=4.66.0.20240417,<5"
 types-beautifulsoup4 = ">=4.12.0.20241020,<5"
+pyright = ">=1.1.388,<2"
 
 [tool.pixi.pypi-dependencies]
 beautifulsoup4 = "*"
@@ -52,7 +53,8 @@ test = "pytest"
 black = "black lib tests"
 check = { cmd = "ruff check --fix lib notebooks tests" }
 format = { cmd = "ruff format lib notebooks tests", depends-on = [ "black", "check" ] }
-type-check = { cmd = "mypy lib/core.py" }
+mypy = { cmd = "mypy --check-untyped-defs lib/core.py" }
+pyright = { cmd = "pyright lib/core.py" }
 
 [tool.pytest.ini_options]
 minversion = "7.1.1"

@@ -1,4 +1,4 @@
-"""Functions for downloading staff data from ORNL."""
+"""Functions for downloading data of people from ORNL."""
 
 import string
 import urllib.error
@@ -7,14 +7,13 @@ from typing import Tuple
 from urllib.parse import parse_qs, urlparse
 
 import polars as pl
-from bs4 import BeautifulSoup
-
-# from tqdm.notebook import trange
+from bs4 import BeautifulSoup, Tag
+from tqdm.notebook import trange
 
 
 def download(url: str):
     content = urllib.request.urlopen(url).read().decode("UTF-8")
-    return BeautifulSoup(content)
+    return BeautifulSoup(content, features="html.parser")
 
 
 def get_alphabet() -> list[str]:
@@ -40,18 +39,16 @@ def parse(row) -> Tuple[str, str, str]:
 
 def get_staff_data(letter: str = "A"):
     soup = download(get_page_url(letter))
-    last = soup.select("li.pager__item--last")
-    is_paginated = len(last) != 0
-    page_count = 0 if not is_paginated else get_page_from_query(last[0].a.get("href"))
+    last: list[Tag] = soup.select("li.pager__item--last")
     data = []
-    # parameters = {
-    #     "leave": False,
-    #     "desc": f"Downloading {letter.upper()}",
-    #     "bar_format": "{l_bar}{bar}| Page {n_fmt} of {total_fmt}",
-    # }
-    if is_paginated:
-        # for num in trange(0, page_count + 1, **parameters):
-        for num in range(0, page_count + 1):
+    parameters = {
+        "bar_format": "{l_bar}{bar}| Page {n_fmt} of {total_fmt}",
+        "desc": f"Downloading {letter.upper()}",
+    }
+    if len(last) != 0:  # paginated
+        assert last[0].a is not None
+        page_count = get_page_from_query(last[0].a.get("href"))
+        for num in trange(0, page_count + 1, **parameters):
             soup = download(get_page_url(letter, num))
             data += [parse(row) for row in soup("tr")]
     else:
