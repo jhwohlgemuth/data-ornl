@@ -36,11 +36,11 @@ python = "<3.11"
 pyyaml = "*"
 ruff = "*"
 tqdm = "*"
+types-tqdm = ">=4.66.0.20240417,<5"
+types-beautifulsoup4 = ">=4.12.0.20241020,<5"
 xarray = "*"
 zarr = "*"
 mypy = ">=1.13.0,<2"
-types-tqdm = ">=4.66.0.20240417,<5"
-types-beautifulsoup4 = ">=4.12.0.20241020,<5"
 pyright = ">=1.1.388,<2"
 
 [tool.pixi.pypi-dependencies]
